@@ -13,7 +13,7 @@ pipeline {
                     extensions: [],
                     userRemoteConfigs: [[
                         credentialsId: '30989c36-de19-497a-b96e-17aa4b90c235',
-                        url: 'https://github.com/Project-TFE/Deploy-K8s.git'
+                        url: 'https://github.com/Project-TFE/Kubernetes-Cluster.git'
                     ]]
                 )
             }
