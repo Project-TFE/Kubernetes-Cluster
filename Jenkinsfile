@@ -24,10 +24,10 @@ pipeline {
                 script {
                     withKubeConfig([credentialsId: env.KUBECONFIG_CREDENTIALS]) {
                         sh """
-                            kubectl apply -f k8s/namespace.yaml
-                            kubectl apply -f k8s/database.yaml
-                            kubectl apply -f k8s/backend.yaml
-                            kubectl apply -f k8s/frontend.yaml
+                            kubectl apply -f Docker/k8s/namespace.yaml
+                            kubectl apply -f Docker/k8s/database-deployment.yaml
+                            kubectl apply -f Docker/k8s/backend-deployment.yaml
+                            kubectl apply -f Docker/k8s/frontend-deployment.yaml
                         """
                     }
                 }
