@@ -23,12 +23,26 @@ pipeline {
             steps {
                 script {
                     withKubeConfig([credentialsId: env.KUBECONFIG_CREDENTIALS]) {
-                        sh """
+                        sh '''
+                            # Vérifie si Minikube est actif
+                            if ! minikube status | grep -q "host: Running"; then
+                                echo "Minikube n'est pas actif. Démarrage en cours..."
+                                minikube start
+                            else
+                                echo "Minikube est déjà actif."
+                            fi
+
+                            # Déploiement Kubernetes
                             kubectl apply -f Docker/k8s/namespace.yaml
                             kubectl apply -f Docker/k8s/database-deployment.yaml
                             kubectl apply -f Docker/k8s/backend-deployment.yaml
                             kubectl apply -f Docker/k8s/frontend-deployment.yaml
-                        """
+
+                            # Suivi du rollout pour chaque déploiement dans le namespace myapp
+                            kubectl rollout status deployment/database-deployment -n myapp
+                            kubectl rollout status deployment/backend-deployment -n myapp
+                            kubectl rollout status deployment/frontend-deployment -n myapp
+                        '''
                     }
                 }
             }
