@@ -39,9 +39,9 @@ pipeline {
                             kubectl apply -f Docker/k8s/frontend-deployment.yaml
 
                             # Suivi du rollout pour chaque déploiement dans le namespace myapp
-                            kubectl rollout status deployment/database-deployment -n myapp
-                            kubectl rollout status deployment/backend-deployment -n myapp
-                            kubectl rollout status deployment/frontend-deployment -n myapp
+                            kubectl rollout status deployment/database -n myapp
+                            kubectl rollout status deployment/backend -n myapp
+                            kubectl rollout status deployment/frontend -n myapp
                         '''
                     }
                 }
