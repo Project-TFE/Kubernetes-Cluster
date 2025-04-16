@@ -5,6 +5,8 @@ pipeline {
         DOCKER_REGISTRY = "your-registry-url"
         KUBERNETES_NAMESPACE = "myapp"
     }
+
+checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'effe7fbc-ffc7-4911-882d-b9e13e2adfe7', url: 'https://github.com/Project-TFE/Kubernetes-Cluster.git']])
     
     stages {
         stage('Build Docker Images') {
