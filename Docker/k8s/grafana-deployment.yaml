@@ -23,10 +23,10 @@ spec:
           env:
             - name: GF_SECURITY_ADMIN_PASSWORD
               value: admin123
-            - name: GF_SERVER_ROOT_URL
-              value: http://40.91.224.82/grafana/
-            - name: GF_SERVER_SERVE_FROM_SUB_PATH
-              value: "true"
+            # - name: GF_SERVER_ROOT_URL
+            #   value: http://40.91.224.82/grafana/
+            # - name: GF_SERVER_SERVE_FROM_SUB_PATH
+            #   value: "true"
 ---
 apiVersion: v1
 kind: Service
