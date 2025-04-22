@@ -37,6 +37,9 @@ pipeline {
                             kubectl apply -f Docker/k8s/database-deployment.yaml
                             kubectl apply -f Docker/k8s/backend-deployment.yaml
                             kubectl apply -f Docker/k8s/frontend-deployment.yaml
+                            kubectl apply -f Docker/k8s/grafana-deployment.yaml
+                            kubectl apply -f Docker/k8s/prometheus-config.yaml
+                            kubectl apply -f Docker/k8s/prometheus-deployment.yaml
 
                             # Suivi du rollout pour chaque déploiement dans le namespace myapp
                             kubectl rollout status deployment/database -n myapp
