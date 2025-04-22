@@ -15,7 +15,7 @@ spec:
       annotations:
         prometheus.io/scrape: "true"      # Active scraping Prometheus
         prometheus.io/path: "/metrics"    # Endpoint des métriques
-        prometheus.io/port: "8081"        # Port d'écoute des métriques (doit correspondre au containerPort)
+        prometheus.io/port: "8080"        # Port d'écoute des métriques (doit correspondre au containerPort)
     spec:
       containers:
       - name: frontend
@@ -32,7 +32,7 @@ spec:
   type: NodePort
   ports:
   - port: 8080
-    targetPort: 8081
+    targetPort: 8080
     nodePort: 30005
   selector:
     app: frontend
