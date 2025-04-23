@@ -9,6 +9,7 @@ data:
       scrape_interval: 15s
 
     scrape_configs:
+      # Scraper les pods annotés avec prometheus.io/scrape=true
       - job_name: 'kubernetes-pods'
         kubernetes_sd_configs:
           - role: pod
@@ -25,3 +26,10 @@ data:
             regex: (.+):(?:\d+);(\d+)
             replacement: $1:$2
             target_label: __address__
+
+      # Scraper Prometheus lui-même pour test
+      - job_name: 'prometheus'
+        static_configs:
+          - targets: ['localhost:9090']
+
+     
