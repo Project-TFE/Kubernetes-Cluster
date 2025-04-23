@@ -14,6 +14,8 @@ spec:
       image: gcr.io/cadvisor/cadvisor:v0.47.2
       ports:
         - containerPort: 8080
+      securityContext:
+        privileged: true
       volumeMounts:
         - name: rootfs
           mountPath: /rootfs
