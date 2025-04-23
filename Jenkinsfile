@@ -41,7 +41,7 @@ pipeline {
                             kubectl apply -f Docker/k8s/prometheus-config.yaml
                             kubectl apply -f Docker/k8s/prometheus-deployment.yaml
                             kubectl apply -f Docker/k8s/node-exporter.yaml
-                            kubectl apply -f Docker/k8s/cadvisor.yaml
+                          
 
                             # Suivi du rollout pour chaque déploiement dans le namespace myapp
                             kubectl rollout status deployment/database -n myapp
