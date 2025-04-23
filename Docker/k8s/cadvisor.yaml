@@ -17,12 +17,13 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
     spec:
-      hostNetwork: true  # <--- Ajoute cette ligne
       containers:
         - name: cadvisor
           image: gcr.io/cadvisor/cadvisor:v0.47.2
           ports:
             - containerPort: 8080
+          securityContext:
+            privileged: true
           volumeMounts:
             - name: rootfs
               mountPath: /rootfs
