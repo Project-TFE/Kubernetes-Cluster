@@ -9,7 +9,7 @@ data:
       scrape_interval: 15s
 
     scrape_configs:
-      # Scraper les pods annotés avec prometheus.io/scrape=true
+      # 1. Scrape des pods annotés
       - job_name: 'kubernetes-pods'
         kubernetes_sd_configs:
           - role: pod
@@ -27,9 +27,31 @@ data:
             replacement: $1:$2
             target_label: __address__
 
-      # Scraper Prometheus lui-même pour test
+      # 2. Scrape de Prometheus lui-même
       - job_name: 'prometheus'
         static_configs:
           - targets: ['localhost:9090']
 
-     
+      # 3. Scrape de node-exporter
+      - job_name: 'node-exporter'
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            action: keep
+            regex: node-exporter
+          - source_labels: [__meta_kubernetes_pod_container_port_number]
+            action: keep
+            regex: 9100
+
+      # 4. Scrape de cadvisor
+      - job_name: 'cadvisor'
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            action: keep
+            regex: cadvisor
+          - source_labels: [__meta_kubernetes_pod_container_port_number]
+            action: keep
+            regex: 8080
