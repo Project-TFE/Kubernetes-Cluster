@@ -19,20 +19,29 @@ pipeline {
             }
         }
 
+        stage('Start Kubernetes Cluster') {
+            steps {
+                script {
+                    sh '''
+                        echo "[INFO] Vérification du statut de Minikube..."
+                        if ! minikube status | grep -q "host: Running"; then
+                            echo "[INFO] Minikube n'est pas actif. Démarrage en cours..."
+                            minikube start
+                        else
+                            echo "[INFO] Minikube est déjà actif."
+                        fi
+                    '''
+                }
+            }
+        }
+
         stage('Deploy to Kubernetes') {
             steps {
                 script {
                     withKubeConfig([credentialsId: env.KUBECONFIG_CREDENTIALS]) {
                         sh '''
-                            # Vérifie si Minikube est actif
-                            if ! minikube status | grep -q "host: Running"; then
-                                echo "Minikube n'est pas actif. Démarrage en cours..."
-                                minikube start
-                            else
-                                echo "Minikube est déjà actif."
-                            fi
+                            echo "[INFO] Déploiement des ressources Kubernetes..."
 
-                            # Déploiement Kubernetes
                             kubectl apply -f Docker/k8s/namespace.yaml
                             kubectl apply -f Docker/k8s/database-deployment.yaml
                             kubectl apply -f Docker/k8s/backend-deployment.yaml
@@ -43,9 +52,8 @@ pipeline {
                             kubectl apply -f Docker/k8s/node-exporter.yaml
                             kubectl apply -f Docker/k8s/service-monitoring.yaml
                             kubectl apply -f Docker/k8s/cadvisor.yaml
-                          
 
-                            # Suivi du rollout pour chaque déploiement dans le namespace myapp
+                            echo "[INFO] Vérification du rollout..."
                             kubectl rollout status deployment/database -n myapp
                             kubectl rollout status deployment/backend -n myapp
                             kubectl rollout status deployment/frontend -n myapp
